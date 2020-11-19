@@ -4,9 +4,9 @@ using Vaquinha.Tests.Common.Fixtures;
 
 namespace Vaquinha.Unit.Tests.DomainTests
 {
-    [Collection(nameof(DoacaoFixtureCollection))]    
-    public class DoacaoTests: IClassFixture<DoacaoFixture>, 
-                              IClassFixture<EnderecoFixture>, 
+    [Collection(nameof(DoacaoFixtureCollection))]
+    public class DoacaoTests : IClassFixture<DoacaoFixture>,
+                              IClassFixture<EnderecoFixture>,
                               IClassFixture<CartaoCreditoFixture>
     {
         private readonly DoacaoFixture _doacaoFixture;
@@ -23,7 +23,7 @@ namespace Vaquinha.Unit.Tests.DomainTests
         [Fact]
         [Trait("Doacao", "Doacao_CorretamentePreenchidos_DoacaoValida")]
         public void Doacao_CorretamentePreenchidos_DoacaoValida()
-        {           
+        {
             // Arrange
             var doacao = _doacaoFixture.DoacaoValida();
             doacao.AdicionarEnderecoCobranca(_enderecoFixture.EnderecoValido());
@@ -32,8 +32,11 @@ namespace Vaquinha.Unit.Tests.DomainTests
             // Act
             var valido = doacao.Valido();
 
-            // Assert
+            // Assert 
+
+            // Fluent Assert package, same as Assert.true(valid);
             valido.Should().BeTrue(because: "os campos foram preenchidos corretamente");
+
             doacao.ErrorMessages.Should().BeEmpty();
         }
 
@@ -142,7 +145,7 @@ namespace Vaquinha.Unit.Tests.DomainTests
 
             doacao.ErrorMessages.Should().Contain("Valor mínimo de doação é de R$ 5,00", because: "valor mínimo de doação nao foi atingido.");
             doacao.ErrorMessages.Should().Contain("O campo Nome é obrigatório.", because: "o campo Nome não foi informado.");
-            doacao.ErrorMessages.Should().Contain("O campo Email é obrigatório.", because: "o campo Email não foi informado.");            
+            doacao.ErrorMessages.Should().Contain("O campo Email é obrigatório.", because: "o campo Email não foi informado.");
         }
 
         [Fact]
@@ -162,8 +165,8 @@ namespace Vaquinha.Unit.Tests.DomainTests
 
             doacao.ErrorMessages.Should().HaveCount(2, because: "Os 2 campos obrigatórios da doação não foram preenchidos");
 
-            doacao.ErrorMessages.Should().Contain("Valor mínimo de doação é de R$ 5,00", because: "valor mínimo de doação nao foi atingido.");            
-            doacao.ErrorMessages.Should().Contain("O campo Email é obrigatório.", because: "o campo Email não foi informado.");            
+            doacao.ErrorMessages.Should().Contain("Valor mínimo de doação é de R$ 5,00", because: "valor mínimo de doação nao foi atingido.");
+            doacao.ErrorMessages.Should().Contain("O campo Email é obrigatório.", because: "o campo Email não foi informado.");
         }
 
     }
