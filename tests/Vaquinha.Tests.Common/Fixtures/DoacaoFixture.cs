@@ -23,7 +23,7 @@ namespace Vaquinha.Tests.Common.Fixtures
             const int DECIMALS = 2;
 
             faker.RuleFor(c => c.Valor, (f, c) => f.Finance.Amount(MIN_VALUE, MAX_VALUE, DECIMALS));
-            
+
             var retorno = faker.Generate();
 
             retorno.DadosPessoais = PessoaModelValida();
@@ -31,16 +31,16 @@ namespace Vaquinha.Tests.Common.Fixtures
             return retorno;
         }
 
-        public Doacao DoacaoValida(bool emailInvalido = false, double? valor = 5, bool maxLenghField = false)
-        {            
+        public Doacao DoacaoValida(bool emailInvalido = false, double? valor = 5, bool maxLenghField = false, bool aceitaTaxa = false)
+        {
             var faker = new Faker<Doacao>("pt_BR");
 
             const int MIN_VALUE = 1;
             const int MAX_VALUE = 500;
             const int DECIMALS = 2;
 
-            faker.CustomInstantiator(f => new Doacao(Guid.Empty, Guid.Empty, Guid.Empty, valor ?? (double)f.Finance.Amount(MIN_VALUE, MAX_VALUE, DECIMALS), 
-                                                        PessoaValida(emailInvalido, maxLenghField), null, null));
+            faker.CustomInstantiator(f => new Doacao(Guid.Empty, Guid.Empty, Guid.Empty, valor ?? (double)f.Finance.Amount(MIN_VALUE, MAX_VALUE, DECIMALS),
+                                                        PessoaValida(emailInvalido, maxLenghField), null, null, aceitaTaxa));
 
             return faker.Generate();
         }
@@ -53,11 +53,11 @@ namespace Vaquinha.Tests.Common.Fixtures
         public Doacao DoacaoInvalida(bool doacaoAnonima = false)
         {
             var pessoaInvalida = new Pessoa(Guid.Empty, string.Empty, string.Empty, doacaoAnonima, string.Empty);
-            return new Doacao(Guid.Empty, Guid.Empty, Guid.Empty, 0, pessoaInvalida, null, null );
+            return new Doacao(Guid.Empty, Guid.Empty, Guid.Empty, 0, pessoaInvalida, null, null);
         }
 
-        public Pessoa PessoaValida(bool emailInvalido = false,bool maxLenghField = false)
-        {            
+        public Pessoa PessoaValida(bool emailInvalido = false, bool maxLenghField = false)
+        {
             var pessoa = new Faker().Person;
 
             var faker = new Faker<Pessoa>("pt_BR");
